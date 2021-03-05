@@ -18,7 +18,7 @@ function Navbar() {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
-
+  if(localStorage.getItem!==undefined){
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
@@ -27,7 +27,8 @@ function Navbar() {
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
           {/* <Button style={{background:"#000",border:"1px bold #000",backgroundColor:"#000"}}>Logout</Button> */}
-          <Link to='/'> <Button variant="light" onClick={()=>{SignOut()}}>Logout</Button></Link>
+         
+          <Link to='/signin'> <Button variant="light" onClick={()=>{SignOut()}}>Logout</Button></Link>
         </div>
         <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
           <ul className="nav-menu-items" onClick={showSidebar}>
@@ -50,7 +51,42 @@ function Navbar() {
         </nav>
       </IconContext.Provider>
     </>
-  );
+  );}
+  else{
+    return (
+      <>
+        <IconContext.Provider value={{ color: "#fff" }}>
+          <div className="navbar" style={{display:"flex"}}>
+            <Link to="#" className="menu-bars">
+              <FaIcons.FaBars onClick={showSidebar} />
+            </Link>
+            {/* <Button style={{background:"#000",border:"1px bold #000",backgroundColor:"#000"}}>Logout</Button> */}
+           
+           
+          </div>
+          <nav className={sidebar ? "nav-menu active" : "nav-menu"}>
+            <ul className="nav-menu-items" onClick={showSidebar}>
+              <li className="navbar-toggle">
+                <Link to="#" className="menu-bars">
+                  <AiIcons.AiOutlineClose />
+                </Link>
+              </li>
+              {SidebarData.map((item, index) => {
+                return (
+                  <li key={index} className={item.cName}>
+                    <Link to={item.path}>
+                      {item.icon}
+                      <span>{item.title}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </IconContext.Provider>
+      </>
+    );
+  }
 }
 
 export default Navbar;

@@ -3,7 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -11,9 +10,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { ToastContainer, toast } from 'react-toastify';
 
-
-
+import { Route, Redirect } from 'react-router'
 
 function Copyright() {
   useEffect(() => {
@@ -30,7 +29,6 @@ function Copyright() {
       </Typography>
     );
   }
-
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -74,10 +72,27 @@ function login(username,password){
     .then(result =>{
       if(result.status==='Success'){
         localStorage.setItem('token',result.token)
-        
+        toast.success('You are Logged In ', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+       
       }
       else{
-        alert(result.msg)
+        toast.error(result.msg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
        
       }
     })
@@ -88,87 +103,89 @@ function login(username,password){
 
 
   export default function  CreateLoginComponent() {
+   
+
+
+
+
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
         const classes = useStyles();
         console.log("this");
         return(
-    //       <form>
-    //   <label>
-    //     <p>Username</p>
-    //     <input type="text"  onChange={e => setUserName(e.target.value)} />
-    //   </label>
-    //   <label>
-    //     <p>Password</p>
-    //     <input type="password"  onChange={e => setPassword(e.target.value)} />
-    //   </label>
-    //   <div>
-    //     <button type="submit" onClick={()=>{login(username,password) }}>Submit</button>
-    //   </div>
-    // </form>);
+              <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign in
+              </Typography>
+              <form  className={classes.form} noValidate>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  onChange={e => setUserName(e.target.value)}
+                  label="Email Address"
+                  autoFocus
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  label="Password"
+                  type="password"
+                  onChange={e => setPassword(e.target.value)}
+                  id="password"
+                />
 
+               
+                <Button
 
-
-
-            <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form  className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            onChange={e => setUserName(e.target.value)}
-            label="Email Address"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Password"
-            type="password"
-            onChange={e => setPassword(e.target.value)}
-            id="password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={()=>{return login(username,password)
-            
-            }}  
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={(e)=>{e.preventDefault();login(username,password)
+                 
+                  
+                  }}  
+                  className={classes.submit}
+                >
+                  Sign In
+                </Button>
+                <ToastContainer
+                  position="top-center"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  />
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="#" variant="body2">
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="#" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
+              </form>
+            </div>
+            <Box mt={8}>
+              <Copyright />
+            </Box>
     </Container>
   );
         

@@ -7,40 +7,20 @@ import Order from "./Views/Order"
 import Feedback from "./Views/Feedback"
 import Customer from "./Views/Customer"
 import SignIN from "./Views/signin";
+import SignUp from "./Views/SignUp";
 
 function App() {
-  if(localStorage.getItem('token')!=undefined){
+ 
   return (
-   
-    <>
-   
-      <Router>
-       
-        <Navbar />
-        <Switch>
-         
-          <Route path="/" exact component={Service} />
-          <Route path="/subservice" component={Subservice} />
-          <Route path="/order" component={Order} />
-          <Route path="/customer" component={Customer} />
-          <Route path="/feedback" component={Feedback} />
-
-        </Switch>
-      </Router>
-    </>
-  );
-}
-  else{
-    return (
-   
-      <>
-     
+       <>
         <Router>
-         
-          
+        <Navbar/>
+
           <Switch>
-            <Route path="/" exact component={SignIN} />
-            <Route path="/service" exact component={Service} />
+            <Route path="/Signin" exact component={SignIN} />
+            <Route path="/Signup" exact component={SignUp} />
+
+            <Route path="/" exact component={Service} />
             <Route path="/subservice" component={Subservice} />
             <Route path="/order" component={Order} />
             <Route path="/customer" component={Customer} />
@@ -49,7 +29,7 @@ function App() {
           </Switch>
         </Router>
       </>
-    );}
+    )
 }
 
 export default App;
