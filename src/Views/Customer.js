@@ -1,9 +1,10 @@
 import React from 'react'
+import ListCustomerDetails from '../components/Customer/customer'
 
 function Customer() {
     return (
         <div>
-            customer
+            <ListCustomerDetails/>
         </div>
     )
 }

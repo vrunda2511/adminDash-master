@@ -11,8 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { ToastContainer, toast } from 'react-toastify';
-
-import { Route, Redirect } from 'react-router'
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   useEffect(() => {
@@ -50,68 +49,115 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-function login(username,password){
+// function login(username,password){
 
-  console.log("dfdf")
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+//   console.log("dfdf")
+//   var myHeaders = new Headers();
+//   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-  var urlencoded = new URLSearchParams();
-  urlencoded.append("email",username);
-  urlencoded.append("password", password);
+//   var urlencoded = new URLSearchParams();
+//   urlencoded.append("email",username);
+//   urlencoded.append("password", password);
 
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: urlencoded,
-    redirect: 'follow'
-  };
+//   var requestOptions = {
+//     method: 'POST',
+//     headers: myHeaders,
+//     body: urlencoded,
+//     redirect: 'follow'
+//   };
  
-    fetch("http://localhost:4000/api/SignIn", requestOptions)
-    .then(response => response.json())
-    .then(result =>{
-      if(result.status==='Success'){
-        localStorage.setItem('token',result.token)
-        toast.success('You are Logged In ', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          });
+//     fetch("http://localhost:4000/api/SignIn", requestOptions)
+//     .then(response => response.json())
+//     .then(result =>{
+//       if(result.status==='Success'){
+//         localStorage.setItem('token',result.token)
+//         toast.success('You are Logged In ', {
+//           position: "top-right",
+//           autoClose: 5000,
+//           hideProgressBar: false,
+//           closeOnClick: true,
+//           pauseOnHover: true,
+//           draggable: true,
+//           progress: undefined,
+//           });
        
-      }
-      else{
-        toast.error(result.msg, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          });
+//       }
+//       else{
+//         toast.error(result.msg, {
+//           position: "top-right",
+//           autoClose: 5000,
+//           hideProgressBar: false,
+//           closeOnClick: true,
+//           pauseOnHover: true,
+//           draggable: true,
+//           progress: undefined,
+//           });
        
-      }
-    })
-    .catch(error => console.log('error', error));
+//       }
+//     })
+//     .catch(error => console.log('error', error));
         
    
-}
+// }
 
 
   export default function  CreateLoginComponent() {
    
-
-
-
-
+    const history = useHistory();
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
-        const classes = useStyles();
-        console.log("this");
+    const classes = useStyles();
+    console.log("this");
+
+     function handleSubmit(event){
+            console.log("dfdf")
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+          
+            var urlencoded = new URLSearchParams();
+            urlencoded.append("email",username);
+            urlencoded.append("password", password);
+          
+            var requestOptions = {
+              method: 'POST',
+              headers: myHeaders,
+              body: urlencoded,
+              redirect: 'follow'
+            };
+           
+              fetch("http://localhost:4000/api/SignIn", requestOptions)
+              .then(response => response.json())
+              .then(result =>{
+                if(result.status==='Success'){
+                  localStorage.setItem('token',result.token)
+                  localStorage.setItem('customer_id',result.data.map(({customer_id})=>customer_id))
+                  toast.success('You are Logged In ', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
+                  history.push('/');
+                 
+                }
+                else{
+                  toast.error(result.msg, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
+                 
+                }
+              })
+              .catch(error => console.log('error', error)); 
+        }
         return(
               <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -122,7 +168,7 @@ function login(username,password){
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <form  className={classes.form} noValidate>
+              <form  className={classes.form} noValidate onSubmit={(e)=>{e.preventDefault();handleSubmit()}}>
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -144,20 +190,18 @@ function login(username,password){
                   id="password"
                 />
 
-               
                 <Button
 
                   fullWidth
                   variant="contained"
                   color="primary"
-                  onClick={(e)=>{e.preventDefault();login(username,password)
-                 
-                  
-                  }}  
+                  type="submit"
+                  // onClick={(e)=>{e.preventDefault();login(username,password)}}  
                   className={classes.submit}
                 >
                   Sign In
                 </Button>
+                
                 <ToastContainer
                   position="top-center"
                   autoClose={5000}
@@ -189,5 +233,5 @@ function login(username,password){
     </Container>
   );
         
-    }
+ }
 

@@ -1,9 +1,9 @@
 import React from 'react'
-
+import ListOrderDetails from '../components/Order/order'
 function Order() {
     return (
         <div>
-            order
+            <ListOrderDetails/>
         </div>
     )
 }

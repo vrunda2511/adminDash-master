@@ -97,8 +97,11 @@ class ListServiceComponent extends Component {
                                         </tr>
                                 )
                             }
+                           
                         </tbody>
+                      
                     </table>
+                   
                 </div>
             </div>
         )

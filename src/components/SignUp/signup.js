@@ -17,6 +17,7 @@ import Container from '@material-ui/core/Container';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const eye = <FontAwesomeIcon icon={faEye} />;
 
 function Copyright() {
@@ -54,79 +55,80 @@ const useStyles = makeStyles((theme) => ({
   }));
  
 
-function register(firstName,lastName,gender,mobileno,address,area,city,email,password,cpassword){
+// function register(firstName,lastName,gender,mobileno,address,area,city,email,password,cpassword){
    
-    if(firstName==null || lastName==null||gender==null||mobileno==null||address==null||area==null||city==null||email==null||password==null||cpassword==null){
-        toast.error(' All Field are required!!', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            });
-    }
-    else if(password!==cpassword){
-        toast.error(' Your Password Does not matched!!', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            });
-    }
-    else{
-        alert(firstName+lastName+gender+mobileno+address+area+city+email+password+cpassword)
-         var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+//     if(firstName==null || lastName==null||gender==null||mobileno==null||address==null||area==null||city==null||email==null||password==null||cpassword==null){
+//         toast.error(' All Field are required!!', {
+//             position: "top-right",
+//             autoClose: 5000,
+//             hideProgressBar: false,
+//             closeOnClick: true,
+//             pauseOnHover: true,
+//             draggable: true,
+//             progress: undefined,
+//             });
+//     }
+//     else if(password!==cpassword){
+//         toast.error(' Your Password Does not matched!!', {
+//             position: "top-right",
+//             autoClose: 5000,
+//             hideProgressBar: false,
+//             closeOnClick: true,
+//             pauseOnHover: true,
+//             draggable: true,
+//             progress: undefined,
+//             });
+//     }
+//     else{
+//         alert(firstName+lastName+gender+mobileno+address+area+city+email+password+cpassword)
+//          var myHeaders = new Headers();
+//         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-        var urlencoded = new URLSearchParams();
-        urlencoded.append("firstname", firstName);
-        urlencoded.append("lastname", lastName);
-        urlencoded.append("gender", gender);
-        urlencoded.append("mobile_no", mobileno);
-        urlencoded.append("email", email);
-        urlencoded.append("password", password);
-        urlencoded.append("address", address);
-        urlencoded.append("image", "");
-        urlencoded.append("area", area);
-        urlencoded.append("city", city);
+//         var urlencoded = new URLSearchParams();
+//         urlencoded.append("firstname", firstName);
+//         urlencoded.append("lastname", lastName);
+//         urlencoded.append("gender", gender);
+//         urlencoded.append("mobile_no", mobileno);
+//         urlencoded.append("email", email);
+//         urlencoded.append("password", password);
+//         urlencoded.append("address", address);
+//         urlencoded.append("image", "");
+//         urlencoded.append("area", area);
+//         urlencoded.append("city", city);
 
-        var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: 'follow'
-        };
+//         var requestOptions = {
+//         method: 'POST',
+//         headers: myHeaders,
+//         body: urlencoded,
+//         redirect: 'follow'
+//         };
 
-        fetch("http://localhost:4000/api/Signup", requestOptions)
-        .then(response => response.json())
-        .then(result => {console.log(result.status)
-            if(result.status==="Success"){
-                toast.success('You have Succesfully Registerd!! ', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    });
+//         fetch("http://localhost:4000/api/Signup", requestOptions)
+//         .then(response => response.json())
+//         .then(result => {console.log(result.status)
+//             if(result.status==="Success"){
+//                 toast.success('You have Succesfully Registerd!! ', {
+//                     position: "top-right",
+//                     autoClose: 5000,
+//                     hideProgressBar: false,
+//                     closeOnClick: true,
+//                     pauseOnHover: true,
+//                     draggable: true,
+//                     progress: undefined,
+//                     });
                     
                    
-            }
+//             }
         
-        })
-        .catch(error => console.log('error', error));
-            }
-}
+//         })
+//         .catch(error => console.log('error', error));
+//             }
+// }
 
 
 
 export default function  CreateSignUpComponent() {
+    const history = useHistory();
     const classes = useStyles();
     const [firstName,setfistname]=useState();
     const [lastName,setlastname]=useState();
@@ -141,6 +143,76 @@ export default function  CreateSignUpComponent() {
     const [cpassword,setcpassword]=useState();
 
  
+    function handleSubmit(event){
+        
+        if(firstName==null || lastName==null||gender==null||mobileno==null||address==null||area==null||city==null||email==null||password==null||cpassword==null){
+            toast.error(' All Field are required!!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+        }
+        else if(password!==cpassword){
+            toast.error(' Your Password Does not matched!!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
+        }
+        else{
+            // alert(firstName+lastName+gender+mobileno+address+area+city+email+password+cpassword)
+             var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    
+            var urlencoded = new URLSearchParams();
+            urlencoded.append("firstname", firstName);
+            urlencoded.append("lastname", lastName);
+            urlencoded.append("gender", gender);
+            urlencoded.append("mobile_no", mobileno);
+            urlencoded.append("email", email);
+            urlencoded.append("password", password);
+            urlencoded.append("address", address);
+            urlencoded.append("image", "");
+            urlencoded.append("area", area);
+            urlencoded.append("city", city);
+    
+            var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: urlencoded,
+            redirect: 'follow'
+            };
+    
+            fetch("http://localhost:4000/api/Signup", requestOptions)
+            .then(response => response.json())
+            .then(result => {console.log(result.status)
+                if(result.status==="Success"){
+                    toast.success('You have Succesfully Registerd!! ', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        });
+                       history.push("/signin")
+                }
+            
+            })
+            .catch(error => console.log('error', error));
+                }
+    }
+
+
     return(
         <div>
          <Container component="main" maxWidth="xs">
@@ -150,9 +222,9 @@ export default function  CreateSignUpComponent() {
             <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-            Sign up
+                 Sign up
             </Typography>
-            <form className={classes.form} noValidate>
+            <form className={classes.form} noValidate onSubmit={(e)=>{e.preventDefault();handleSubmit()}}>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                 <TextField
@@ -296,7 +368,7 @@ export default function  CreateSignUpComponent() {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={(e)=>{e.preventDefault();register(firstName,lastName,gender,mobileno,address,area,city,email,password,cpassword)}}
+                // onClick={(e)=>{e.preventDefault();register(firstName,lastName,gender,mobileno,address,area,city,email,password,cpassword)}}
             >
                 Sign Up
             </Button>
