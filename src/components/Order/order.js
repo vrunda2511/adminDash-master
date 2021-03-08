@@ -116,11 +116,6 @@ import dateFormat from 'dateformat'
                                 <th >Provider Contact</th>
                                 <th>Order Date</th>
                                 <th colSpan={2}>Action</th>
-                                
-                                
-
-
-
                             </tr>
                         </thead>
                         <tbody style={{ textAlign: "center" }}>
