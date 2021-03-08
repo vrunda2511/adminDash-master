@@ -8,23 +8,28 @@ import Feedback from "./Views/Feedback"
 import Customer from "./Views/Customer"
 import SignIN from "./Views/signin";
 import SignUp from "./Views/SignUp";
+import Provider from "./Views/Provider"
+import Individualsubservice from "./Views/Individualservice"
 
 function App() {
  
   return (
        <>
         <Router>
-        <Navbar/>
+        
 
           <Switch>
             <Route path="/Signin" exact component={SignIN} />
             <Route path="/Signup" exact component={SignUp} />
-
             <Route path="/" exact component={Service} />
             <Route path="/subservice" component={Subservice} />
+            <Route path="/provider" component={Provider} />
             <Route path="/order" component={Order} />
             <Route path="/customer" component={Customer} />
             <Route path="/feedback" component={Feedback} />
+            <Route path="/individualsubservice" component={Individualsubservice} />
+
+
   
           </Switch>
         </Router>

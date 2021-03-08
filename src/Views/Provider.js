@@ -1,15 +1,14 @@
 import React from 'react'
-import ListServiceComponent from '../components/Service/ListServiceComponent'
+import ListProviderComponent from "../components/Provider/ListProviderComponent"
 import CreateLoginComponent  from '../components/SignIn/signin'
 import Navbar from '../components/Navbar/Navbar'
-
-function Service() {
+function Provider() {
     if(localStorage.getItem('token')!=undefined)
     {
         return (
             <div>
                 <Navbar/>
-                <ListServiceComponent />
+                <ListProviderComponent />
             </div>
         )
     }
@@ -24,4 +23,4 @@ function Service() {
     }
 }
 
-export default Service
+export default Provider

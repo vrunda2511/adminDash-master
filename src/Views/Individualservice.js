@@ -1,15 +1,14 @@
 import React from 'react'
-import ListServiceComponent from '../components/Service/ListServiceComponent'
+import IndividualSubServiceComponent from '../components/Subservice/IndividualSubserviceComponent'
 import CreateLoginComponent  from '../components/SignIn/signin'
 import Navbar from '../components/Navbar/Navbar'
-
-function Service() {
+function Individualservice() {
     if(localStorage.getItem('token')!=undefined)
     {
         return (
             <div>
                 <Navbar/>
-                <ListServiceComponent />
+                <IndividualSubServiceComponent />
             </div>
         )
     }
@@ -24,4 +23,4 @@ function Service() {
     }
 }
 
-export default Service
+export default Individualservice

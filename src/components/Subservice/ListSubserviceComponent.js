@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-
-import { Link } from "react-router-dom"
-class ViewServiceComponent extends Component {
+class SubserviceComponent extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
             subservices: []
         }
@@ -12,13 +9,18 @@ class ViewServiceComponent extends Component {
     }
 
     componentDidMount() {
-
-        const apiUrl = 'http://localhost:4000/api/getAllSubCategory';
+        this.refreshlist()
+    }
+refreshlist(){
+    const apiUrl = 'http://localhost:4000/api/getAllSubCategory';
         fetch(apiUrl)
             .then(response => response.json())
             .then(data => this.setState({ subservices: data }));
-    }
+}
 
+componentDidUpdate(){
+    this.refreshlist()
+}
     deleteSubService(subserviceId) {
         console.log("Delete", subserviceId)
         const { subservices } = this.state;
@@ -50,6 +52,8 @@ class ViewServiceComponent extends Component {
 
 
     render() {
+
+        //var addModalClose = () => this.setState({ addModalShow: false });
         return (
             <div className="container">
                 <h2 className="text-center" style={{ marginTop: "15px" }}>Subservice List</h2>
@@ -85,7 +89,7 @@ class ViewServiceComponent extends Component {
                                             <td>
                                                 <button className="btn btn-info">Update </button>
                                                 <button style={{ marginLeft: "10px" }} className="btn btn-danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteSubService(subservice.subservice_id) }}>Delete </button>
-                                                <button style={{ marginLeft: "10px" }} className="btn btn-info"> <Link to="UpdateServiceComponent" params={{ service_name: subservice.service_name }}>View</Link> </button>
+
                                             </td>
                                         </tr>
                                 )
@@ -101,4 +105,4 @@ class ViewServiceComponent extends Component {
 
 }
 
-export default ViewServiceComponent;
+export default SubserviceComponent;

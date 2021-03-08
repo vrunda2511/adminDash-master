@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import dateFormat from 'dateformat'
 
  class ListOrderDetails extends Component {
     constructor(props) {
@@ -94,7 +95,7 @@ import { Button } from 'react-bootstrap';
     }
     render() {
         let i=1;
-       const rowNumber=1
+        const rowNumber=1
         let counter=1
         return (
             <div className="container">
@@ -134,7 +135,7 @@ import { Button } from 'react-bootstrap';
                                             <td>{order.area}</td>
                                             <td>{order.provider_firstname} {order.provider_lastname}</td>
                                             <td> {order.provider_mobileno} </td>
-                                            <td>{order.order_date}</td>
+                                            <td>{dateFormat(order.order_date, "dS mmmm, yyyy")}</td>
                                             <td>
                                                 <button className="btn btn-info" type="submit" onClick={()=>this.confirmorder(order.placeorder_id)}>Confirm </button>
                                                 <button style={{ marginLeft: "10px" }} className="btn btn-danger" onClick={()=>this.rejectorder(order.placeorder_id)} >Reject </button>

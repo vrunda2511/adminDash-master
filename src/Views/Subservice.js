@@ -1,12 +1,27 @@
 import React from 'react'
-import ViewServiceComponent from '../components/Service/ViewServiceComponent'
+import ListSubserviceComponent from '../components/Subservice/ListSubserviceComponent'
+import CreateLoginComponent  from '../components/SignIn/signin'
+import Navbar from '../components/Navbar/Navbar'
 
 function Subservice() {
-    return (
-        <div>
-        <ViewServiceComponent />
-    </div>
-    )
+    if(localStorage.getItem('token')!=undefined)
+    {
+        return (
+            <div>
+                <Navbar/>
+                <ListSubserviceComponent />
+            </div>
+        )
+    }
+    else{
+        return (
+            <div>
+                <CreateLoginComponent />
+          </div>
+              
+        )
+        
+    }
 }
 
 export default Subservice
