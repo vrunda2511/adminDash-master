@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { Modal, Button, Row, Col, Form, FormGroup, FormLabel } from "react-bootstrap"
-import dateFormat from 'dateformat';
 
 export class CreateServiceComponent extends Component {
   // constructor(props) {

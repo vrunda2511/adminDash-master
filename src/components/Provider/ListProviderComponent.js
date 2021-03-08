@@ -92,8 +92,8 @@ class ListProviderComponent extends Component {
                                 <th>Provider MobileNo</th>
                                 <th>Provider Address</th>
                                 <th>Provider Area</th>
-                                <th>Actions</th>
-                                <th>Actions</th>
+                                <th colSpan={2}>Actions</th>
+                             
                             </tr>
                         </thead>
                         <tbody style={{ textAlign: "center" }}>

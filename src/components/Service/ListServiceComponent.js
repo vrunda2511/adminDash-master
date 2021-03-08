@@ -83,9 +83,9 @@ componentDidUpdate(){
                                 <th>Service Name</th>
                                 <th>Service Created Date</th>
                                 <th>Service Modified Date</th>
-                                <th>Actions</th>
-                                <th>Actions</th>
-                                <th>Actions</th>
+                                <th colSpan={3}>Actions</th>
+                                {/* <th>Actions</th>
+                                <th>Actions</th> */}
                             </tr>
                         </thead>
                         <tbody style={{ textAlign: "center" }}>

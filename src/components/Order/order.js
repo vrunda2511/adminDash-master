@@ -115,7 +115,7 @@ import dateFormat from 'dateformat'
                                 <th> Provider Name</th>
                                 <th >Provider Contact</th>
                                 <th>Order Date</th>
-                                <th>Action</th>
+                                <th colSpan={2}>Action</th>
                                 
                                 
 
@@ -138,8 +138,11 @@ import dateFormat from 'dateformat'
                                             <td>{dateFormat(order.order_date, "dS mmmm, yyyy")}</td>
                                             <td>
                                                 <button className="btn btn-info" type="submit" onClick={()=>this.confirmorder(order.placeorder_id)}>Confirm </button>
-                                                <button style={{ marginLeft: "10px" }} className="btn btn-danger" onClick={()=>this.rejectorder(order.placeorder_id)} >Reject </button>
                                                 {/* <button style={{ marginLeft: "10px" }} className="btn btn-info"> <Link to="ViewServiceComponent" params={{ service_name: service.service_name }}>View</Link> </button> */}
+                                            </td>
+                                            <td>
+                                            <button style={{ marginLeft: "10px" }} className="btn btn-danger" onClick={()=>this.rejectorder(order.placeorder_id)} >Reject </button>
+
                                             </td>
 
                                           

@@ -63,6 +63,7 @@ export class UpdateProviderComponent extends Component {
                                             placeholder="Provider Id"
                                             name="providerid"
                                             defaultValue={this.props.pid}
+                                            disabled
                                         />
                                     </FormGroup>
                                     <FormGroup controlId="ProviderFirstName">

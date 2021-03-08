@@ -15,7 +15,6 @@ class IndividualServiceComponent extends Component {
     }
 
     componentDidMount() {
-        // const catname = this.props.service_name;
         const catname = localStorage.getItem("service_name");
         console.log(catname)
         const apiUrl = 'http://localhost:4000/api/getCategoryByName/' + catname;
@@ -65,7 +64,7 @@ class IndividualServiceComponent extends Component {
                 <h2 className="text-center" style={{ marginTop: "15px" }}>SubServices</h2>
                 <div className="row">
                     <ButtonToolbar>
-                        <button className="btn btn-primary" onClick={() => this.setState({ addModalShow: true })} > Add Service</button>
+                        <button className="btn btn-primary" onClick={() => this.setState({ addModalShow: true })} > Add Subservice</button>
                         <CreateSubserviceComponent show={this.state.addModalShow} onHide={addModalClose} />
                     </ButtonToolbar>
                 </div>
@@ -81,8 +80,8 @@ class IndividualServiceComponent extends Component {
                                 <th>Subservice Image</th>
                                 <th>Subservice price</th>
                                 <th>Subservice duration</th>
-                                <th>Action</th>
-                                <th>Action</th>
+                                <th colSpan={2}>Action</th>
+                              
                             </tr>
                         </thead>
                         <tbody style={{ textAlign: "center" }}>
