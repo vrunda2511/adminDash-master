@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import dateFormat from 'dateformat'
+import { ToastContainer, toast } from 'react-toastify';
 
  class ListOrderDetails extends Component {
     constructor(props) {
@@ -36,6 +37,15 @@ import dateFormat from 'dateformat'
           .then(response => response.text())
           .then(
             (result) => {
+                toast.success('Order Confirm Successfully ', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
                 this.setState({
                     response: result,
                     order: order.filter(order => order.placeorder_id !== placeorder_id)
@@ -55,7 +65,7 @@ import dateFormat from 'dateformat'
         
         var urlencoded = new URLSearchParams();
         urlencoded.append("placeorder_id", placeorder_id);
-        urlencoded.append("orderstatus", "Reject");
+        urlencoded.append("orderstatus", "Rejected");
         
         var requestOptions = {
           method: 'PUT',
@@ -68,6 +78,15 @@ import dateFormat from 'dateformat'
           .then(response => response.text())
           .then(
             (result) => {
+                toast.success('Order Rejected Successfully ', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
                 this.setState({
                     response: result,
                     order: order.filter(order => order.placeorder_id !== placeorder_id)
@@ -134,10 +153,31 @@ import dateFormat from 'dateformat'
                                             <td>
                                                 <button className="btn btn-info" type="submit" onClick={()=>this.confirmorder(order.placeorder_id)}>Confirm </button>
                                                 {/* <button style={{ marginLeft: "10px" }} className="btn btn-info"> <Link to="ViewServiceComponent" params={{ service_name: service.service_name }}>View</Link> </button> */}
+                                                <ToastContainer
+                                                position="top-center"
+                                                autoClose={5000}
+                                                hideProgressBar={false}
+                                                newestOnTop={false}
+                                                closeOnClick
+                                                rtl={false}
+                                                pauseOnFocusLoss
+                                                draggable
+                                                pauseOnHover
+                                                />
                                             </td>
                                             <td>
                                             <button style={{ marginLeft: "10px" }} className="btn btn-danger" onClick={()=>this.rejectorder(order.placeorder_id)} >Reject </button>
-
+                                            <ToastContainer
+                                            position="top-center"
+                                            autoClose={5000}
+                                            hideProgressBar={false}
+                                            newestOnTop={false}
+                                            closeOnClick
+                                            rtl={false}
+                                            pauseOnFocusLoss
+                                            draggable
+                                            pauseOnHover
+                                            />
                                             </td>
 
                                           

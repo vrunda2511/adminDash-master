@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { CreateSubserviceComponent } from "./CreateSubserviceComponent"
 import { UpdateSubserviceComponent } from "./UpdateSubserviceComponent"
 import { ButtonToolbar } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 class IndividualServiceComponent extends Component {
     constructor(props) {
@@ -15,6 +17,9 @@ class IndividualServiceComponent extends Component {
     }
 
     componentDidMount() {
+       this.refreshlist()
+    }
+    refreshlist(){
         const catname = localStorage.getItem("service_name");
         console.log(catname)
         const apiUrl = 'http://localhost:4000/api/getCategoryByName/' + catname;
@@ -22,7 +27,10 @@ class IndividualServiceComponent extends Component {
             .then(response => response.json())
             .then(data => this.setState({ individualservices: data }));
     }
+    componentDidUpdate(){
+        this.refreshlist()
 
+    }
 
     deleteService(subserviceId) {
         console.log("Delete", subserviceId)
@@ -46,6 +54,15 @@ class IndividualServiceComponent extends Component {
                         response: result,
                         individualservices: individualservices.filter(individualservice => individualservice.subservice_id !== subserviceId)
                     });
+                    toast.success('Deleted Successfully ', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        });
                 },
                 (error) => {
                     this.setState({ error });
@@ -64,20 +81,21 @@ class IndividualServiceComponent extends Component {
                 <h2 className="text-center" style={{ marginTop: "15px" }}>SubServices</h2>
                 <div className="row">
                     <ButtonToolbar>
-                        <button className="btn btn-primary" onClick={() => this.setState({ addModalShow: true })} > Add Subservice</button>
+                        <button className="btn btn-info" onClick={() => this.setState({ addModalShow: true })} > Add Subservice</button>
                         <CreateSubserviceComponent show={this.state.addModalShow} onHide={addModalClose} />
                     </ButtonToolbar>
                 </div>
                 <br></br>
                 <div className="row">
-                    <table className="table table-striped table-bordered">
+                    <table className="table table-striped table-bordered" style={{textAlign:"center"}}>
 
                         <thead style={{ textAlign: "center" }}>
                             <tr>
+                            <th>Subservice Image</th>
                                 <th>Service Name</th>
                                 <th>Subservice Name</th>
                                 <th>Provider Name</th>
-                                <th>Subservice Image</th>
+                              
                                 <th>Subservice price</th>
                                 <th>Subservice duration</th>
                                 <th colSpan={2}>Action</th>
@@ -89,16 +107,18 @@ class IndividualServiceComponent extends Component {
                                 this.state.individualservices.map(
                                     individualservice =>
                                         <tr key={individualservice.subservice_id}>
+                                            <td><img src= {individualservice.image} height={80} width={80} style={{borderRadius:5}}/>
+                                               </td>
                                             <td>{localStorage.getItem("service_name")}</td>
                                             <td>{individualservice.sub_servicename} </td>
                                             <td>{individualservice.providername}</td>
-                                            <td>{individualservice.image}</td>
+                                            
                                             <td>{individualservice.price}</td>
                                             <td>{individualservice.time_duration}</td>
 
                                             <td>
                                                 <ButtonToolbar>
-                                                    <button className="btn btn-primary" onClick={() => this.setState({
+                                                    <button className="btn btn-info" onClick={() => this.setState({
                                                         editModalShow: true,
                                                         subid: individualservice.subservice_id,
                                                         subname: individualservice.sub_servicename,
@@ -123,6 +143,17 @@ class IndividualServiceComponent extends Component {
                                             </td>
                                             <td>
                                                 <button className="btn btn-danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteService(individualservice.subservice_id) }}>Delete</button>
+                                                <ToastContainer
+                                                    position="top-center"
+                                                    autoClose={5000}
+                                                    hideProgressBar={false}
+                                                    newestOnTop={false}
+                                                    closeOnClick
+                                                    rtl={false}
+                                                    pauseOnFocusLoss
+                                                    draggable
+                                                    pauseOnHover
+                                                    />
                                             </td>
                                         </tr>
                                 )

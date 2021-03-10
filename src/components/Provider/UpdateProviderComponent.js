@@ -1,40 +1,54 @@
 import React, { Component } from "react"
 import { Modal, Button, Row, Col, Form, FormGroup, FormLabel } from "react-bootstrap"
+import { ToastContainer, toast } from 'react-toastify';
 
 export class UpdateProviderComponent extends Component {
-    // constructor(props) {
-    //   super(props)
-    // }
+    constructor(props) {
+        super(props)
+        this.state={
+          file:""
+        }
+        this.handleSubmit=this.handleSubmit.bind(this);
+      }
+      
+      onfileupload=(e)=>{
+        this.state.file=e.target.files[0];
+        console.log(this.state.file)
+      
+      }
     handleSubmit(event) {
         event.preventDefault();
         const id = event.target.providerid.value;
-        fetch('http://localhost:4000/api/UpdateProvider/' + id, {
+            var formdata = new FormData();
+            formdata.append("firstname",event.target.providerfirstname.value );
+            formdata.append("lastname", event.target.providerlastname.value);
+            formdata.append("mobile_no", event.target.providermobileno.value);
+            formdata.append("email", event.target.provideremail.value);
+            formdata.append("address", event.target.provideraddress.value);
+            formdata.append("profilepicture", this.state.file);
+            formdata.append("area", event.target.providerarea.value);
+            formdata.append("gender", event.target.providergender.value);
+
+            var requestOptions = {
             method: 'PUT',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            },
+            body: formdata,
+            redirect: 'follow'
+            };
 
-            body: JSON.stringify({
-                firstname: event.target.providerfirstname.value,
-                lastname: event.target.providerlastname.value,
-                gender: event.target.providergender.value,
-                mobile_no: event.target.providermobileno.value,
-                email: event.target.provideremail.value,
-                address: event.target.provideraddress.value,
-                area: event.target.providerarea.value,
-                image: event.target.providerimage.value
-
+            fetch("http://localhost:4000/api/UpdateProvider/"+id, requestOptions)
+            .then(response => response.text())
+            .then(result => {console.log(result)
+                toast.success('Provider Updated Successfully ', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
             })
-
-        })
-            .then(res => res.json())
-            .then((res) => {
-                alert(res.msg)
-            },
-                (error) => {
-                    alert('Failed')
-                }
-            )
+            .catch(error => console.log('error', error));
 
     }
     render() {
@@ -131,17 +145,28 @@ export class UpdateProviderComponent extends Component {
                                     </FormGroup>
                                     <FormGroup controlId="ProviderImage">
                                         <FormLabel>Provider Image</FormLabel>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Provider Image"
-                                            name="providerimage"
-                                            defaultValue={this.props.pimage}
+                                        <input
+               
+                                        type="file"
+                                        onChange={this.onfileupload}
+                                        
                                         />
                                     </FormGroup>
                                     <Form.Group>
                                         <Button variant="primary" type="submit" >
                                             Update Provider
                                          </Button>
+                                         <ToastContainer
+                                        position="top-center"
+                                        autoClose={5000}
+                                        hideProgressBar={false}
+                                        newestOnTop={false}
+                                        closeOnClick
+                                        rtl={false}
+                                        pauseOnFocusLoss
+                                        draggable
+                                        pauseOnHover
+                                        />
                                     </Form.Group>
                                 </Form>
                             </Col>

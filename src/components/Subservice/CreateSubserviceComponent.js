@@ -1,40 +1,56 @@
 import React, { Component } from "react"
 import { Modal, Button, Row, Col, Form, FormGroup, FormLabel } from "react-bootstrap"
+import { ToastContainer, toast } from 'react-toastify';
 
 export class CreateSubserviceComponent extends Component {
 
-    // constructor(props) {
-    //     super(props)
-    // }
+    constructor(props) {
+        super(props)
+        this.state={
+            file:""
+          }
+          this.handleSubmit=this.handleSubmit.bind(this);
+        }
+
+        onfileupload=(e)=>{
+            this.state.file=e.target.files[0];
+            console.log(this.state.file)
+          
+          }
     handleSubmit(event) {
         event.preventDefault();
+        // console.log()
+       
 
-        fetch('http://localhost:4000/api/AddSubService', {
+            var formdata = new FormData();
+            formdata.append("profilepicture",this.state.file );
+            formdata.append("sub_servicename",event.target.subservicename.value);
+            formdata.append("price", event.target.subserviceprice.value);
+            formdata.append("short_description",event.target.subserviceshortdesc.value);
+            formdata.append("long_description", event.target.subservicelongdesc.value);
+            formdata.append("time_duration", event.target.subserviceduration.value);
+            formdata.append("service_name",localStorage.getItem("service_name"));
+
+            var requestOptions = {
             method: 'POST',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            },
+            body: formdata,
+            redirect: 'follow'
+            };
 
-            body: JSON.stringify({
-                service_name: localStorage.getItem("service_name"),
-                sub_servicename: event.target.subservicename.value,
-                image: event.target.subserviceimg.value,
-                price: event.target.subserviceprice.value,
-                time_duration: event.target.subserviceduration.value,
-                short_description: event.target.subserviceshortdesc.value,
-                long_description: event.target.subservicelongdesc.value
+            fetch("http://localhost:4000/api/AddSubService", requestOptions)
+            .then(response => response.text())
+            .then(result => {console.log(result)
+                toast.success(event.target.subservicename.value+'Added Successfully ', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
             })
-
-        })
-            .then(res => res.json())
-            .then((res) => {
-                alert(res.msg)
-            },
-                (error) => {
-                    alert('Failed')
-                }
-            )
-
+            .catch(error => console.log('error', error));
     }
     render() {
         return (
@@ -65,11 +81,11 @@ export class CreateSubserviceComponent extends Component {
                                     </FormGroup>
                                     <FormGroup>
                                         <FormLabel>Subservice Image</FormLabel>
-                                        <Form.Control
+                                        <input
+               
                                             type="file"
-                                            placeholder="Subservice Image"
-                                            name="subserviceimg"
-                                        />
+                                            onChange={this.onfileupload}
+                                            />
                                     </FormGroup>
                                     <FormGroup>
                                         <FormLabel>Subservice Price</FormLabel>
@@ -107,6 +123,17 @@ export class CreateSubserviceComponent extends Component {
                                         <Button variant="primary" type="submit" >
                                             Add Subservice
                                          </Button>
+                                         <ToastContainer
+                                            position="top-center"
+                                            autoClose={5000}
+                                            hideProgressBar={false}
+                                            newestOnTop={false}
+                                            closeOnClick
+                                            rtl={false}
+                                            pauseOnFocusLoss
+                                            draggable
+                                            pauseOnHover
+                                            />
                                     </Form.Group>
                                 </Form>
                             </Col>

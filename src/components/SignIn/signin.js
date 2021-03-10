@@ -49,56 +49,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-// function login(username,password){
 
-//   console.log("dfdf")
-//   var myHeaders = new Headers();
-//   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-//   var urlencoded = new URLSearchParams();
-//   urlencoded.append("email",username);
-//   urlencoded.append("password", password);
-
-//   var requestOptions = {
-//     method: 'POST',
-//     headers: myHeaders,
-//     body: urlencoded,
-//     redirect: 'follow'
-//   };
- 
-//     fetch("http://localhost:4000/api/SignIn", requestOptions)
-//     .then(response => response.json())
-//     .then(result =>{
-//       if(result.status==='Success'){
-//         localStorage.setItem('token',result.token)
-//         toast.success('You are Logged In ', {
-//           position: "top-right",
-//           autoClose: 5000,
-//           hideProgressBar: false,
-//           closeOnClick: true,
-//           pauseOnHover: true,
-//           draggable: true,
-//           progress: undefined,
-//           });
-       
-//       }
-//       else{
-//         toast.error(result.msg, {
-//           position: "top-right",
-//           autoClose: 5000,
-//           hideProgressBar: false,
-//           closeOnClick: true,
-//           pauseOnHover: true,
-//           draggable: true,
-//           progress: undefined,
-//           });
-       
-//       }
-//     })
-//     .catch(error => console.log('error', error));
-        
-   
-// }
 
 
   export default function  CreateLoginComponent() {
@@ -215,7 +166,7 @@ const useStyles = makeStyles((theme) => ({
                   />
                 <Grid container>
                   <Grid item xs>
-                    <Link href="#" variant="body2">
+                    <Link href="/ForgetPassword" variant="body2">
                       Forgot password?
                     </Link>
                   </Grid>

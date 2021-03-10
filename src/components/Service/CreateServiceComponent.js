@@ -1,37 +1,55 @@
 import React, { Component } from "react"
 import { Modal, Button, Row, Col, Form, FormGroup, FormLabel } from "react-bootstrap"
+import { ToastContainer, toast } from 'react-toastify';
+
 
 export class CreateServiceComponent extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
-  handleSubmit(event) {
-    event.preventDefault();
-    // alert(event.target.servicename.value)
-    // alert(event.target.serviceimg.value)
-
-    fetch('http://localhost:4000/api/AddService', {
-      method: 'POST',
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      },
-
-      body: JSON.stringify({
-        service_name: event.target.servicename.value,
-        service_image: event.target.serviceimg.value
-      })
-
-    })
-      .then(res => res.json())
-      .then((res) => {
-        alert(res.msg)
-      },
-        (error) => {
-          alert('Failed')
-        }
-      )
-
+  constructor(props) {
+    super(props)
+    this.state={
+      file:""
+    }
+    this.handleSubmit=this.handleSubmit.bind(this);
   }
+  
+  onfileupload=(e)=>{
+    this.state.file=e.target.files[0];
+    console.log(this.state.file)
+  
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    
+    
+    var formdata = new FormData();
+    formdata.append("profilepicture",this.state.file);
+    formdata.append("service_name",e.target.servicename.value);
+    
+    var requestOptions = {
+      method: 'POST',
+      
+      body: formdata,
+      redirect: 'follow'
+    };
+    
+    fetch("http://localhost:4000/api/AddService", requestOptions)
+      .then(response => response.text())
+      .then(result =>{
+       
+          toast.success('Service Added Successfully ', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+        
+       })
+      .catch(error => console.log('error', error));
+  }
+  
   render() {
     return (
 
@@ -41,6 +59,7 @@ export class CreateServiceComponent extends Component {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
+          <Form onSubmit={this.handleSubmit} >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             Add Service
@@ -50,7 +69,7 @@ export class CreateServiceComponent extends Component {
           <div className="container">
             <Row>
               <Col sm={6}>
-                <Form onSubmit={this.handleSubmit}>
+              
                   <FormGroup controlId="ServiceName">
                     <FormLabel>Service Name</FormLabel>
                     <Form.Control
@@ -61,25 +80,40 @@ export class CreateServiceComponent extends Component {
                   </FormGroup>
                   <FormGroup controlId="ServiceImage">
                     <FormLabel>Service Image</FormLabel>
-                    <Form.Control
+                    <input
+               
                       type="file"
-                      placeholder="Service Image"
-                      name="serviceimg"
+                      onChange={this.onfileupload}
                     />
+                   
                   </FormGroup>
-                  <Form.Group>
-                    <Button variant="primary" type="submit" >
-                      Add Service
-                    </Button>
-                  </Form.Group>
-                </Form>
+                  
+             
               </Col>
             </Row>
           </div>
         </Modal.Body>
         <Modal.Footer>
+        <Form.Group>
+                    <Button variant="primary" type="submit" >
+                      Add Service
+                    </Button>
+                    <ToastContainer
+                  position="top-center"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  />
+                  </Form.Group>
           <Button variant="danger" onClick={this.props.onHide}>Close</Button>
+          
         </Modal.Footer>
+        </Form>
       </Modal>
     )
   }

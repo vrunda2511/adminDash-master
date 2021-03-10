@@ -1,38 +1,53 @@
 import React, { Component } from "react"
 import { Modal, Button, Row, Col, Form, FormGroup, FormLabel } from "react-bootstrap"
+import { ToastContainer, toast } from 'react-toastify';
 
 export class UpdateSubserviceComponent extends Component {
-    // constructor(props) {
-    //   super(props)
-    // }
+    constructor(props) {
+        super(props)
+        this.state={
+          file:""
+        }
+        this.handleSubmit=this.handleSubmit.bind(this);
+      }
+      
+      onfileupload=(e)=>{
+        this.state.file=e.target.files[0];
+        console.log(this.state.file)
+      
+      }
     handleSubmit(event) {
         event.preventDefault();
         const id = event.target.subserviceid.value;
-        fetch('http://localhost:4000/api/UpdateSubService/' + id, {
-            method: 'PUT',
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            },
-
-            body: JSON.stringify({
-                sub_servicename: event.target.subservicename.value,
-                image: event.target.subserviceimg.value,
-                price: event.target.subserviceprice.value,
-                time_duration: event.target.subserviceduration.value,
-                short_description: event.target.subserviceshortdesc.value,
-                long_description: event.target.subservicelongdesc.value
-            })
-
-        })
-            .then(res => res.json())
-            .then((res) => {
-                alert(res.msg)
-            },
-                (error) => {
-                    alert('Failed')
-                }
-            )
-
+       
+            var formdata = new FormData();
+            formdata.append("sub_servicename",event.target.subservicename.value);
+            formdata.append("profilepicture",this.state.file);
+            formdata.append("price",event.target.subserviceprice.value);
+            formdata.append("short_description", event.target.subserviceshortdesc.value);
+            formdata.append("long_description",event.target.subservicelongdesc.value);
+            formdata.append("time_duration", event.target.subserviceduration.value);
+            
+            var requestOptions = {
+              method: 'PUT',
+              body: formdata,
+              redirect: 'follow'
+            };
+            
+            fetch("http://localhost:4000/api/UpdateSubService/"+id, requestOptions)
+              .then(response => response.text())
+              .then(result => {console.log(result)
+                toast.success(event.target.subservicename.value+' Updated Successfully ', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });})
+              .catch(error => console.log('error', error));         
+            
     }
     render() {
         return (
@@ -74,11 +89,10 @@ export class UpdateSubserviceComponent extends Component {
                                     </FormGroup>
                                     <FormGroup controlId="SubserviceImage">
                                         <FormLabel>Subservice Image</FormLabel>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Subservice Image"
-                                            name="subserviceimg"
-                                            defaultValue={this.props.subimage}
+                                        <input
+               
+                                        type="file"
+                                        onChange={this.onfileupload}
                                         />
                                     </FormGroup>
                                     <FormGroup controlId="SubservicePrice">
@@ -122,6 +136,17 @@ export class UpdateSubserviceComponent extends Component {
                                         <Button variant="primary" type="submit">
                                             Update Service
                                          </Button>
+                                         <ToastContainer
+                                        position="top-center"
+                                        autoClose={5000}
+                                        hideProgressBar={false}
+                                        newestOnTop={false}
+                                        closeOnClick
+                                        rtl={false}
+                                        pauseOnFocusLoss
+                                        draggable
+                                        pauseOnHover
+                                        />
                                     </Form.Group>
                                 </Form>
                             </Col>

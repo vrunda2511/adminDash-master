@@ -4,6 +4,7 @@ import { CreateServiceComponent } from "./CreateServiceComponent"
 import { UpdateServiceComponent } from "./UpdateServiceComponent"
 import { ButtonToolbar } from 'react-bootstrap';
 import dateFormat from 'dateformat';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 class ListServiceComponent extends Component {
@@ -28,7 +29,6 @@ refreshList(){
 }
 componentDidUpdate(){
     this.refreshList();
-
 }
 
     deleteService(serviceId) {
@@ -53,6 +53,15 @@ componentDidUpdate(){
                         response: result,
                         services: services.filter(service => service.service_id !== serviceId)
                     });
+                    toast.success(' Deleted Successfully ', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        });
                 },
                 (error) => {
                     this.setState({ error });
@@ -71,7 +80,7 @@ componentDidUpdate(){
                 <h2 className="text-center" style={{ marginTop: "15px" }}>Main Service</h2>
                 <div className="row">
                     <ButtonToolbar>
-                        <button className="btn btn-primary" onClick={() => this.setState({ addModalShow: true })}> Add Service</button>
+                        <button className="btn btn-info" onClick={() => this.setState({ addModalShow: true })}> Add Service</button>
                         <CreateServiceComponent show={this.state.addModalShow} onHide={addModalClose} />
                     </ButtonToolbar>
                 </div>
@@ -97,7 +106,7 @@ componentDidUpdate(){
                                             <td>{dateFormat(service.modified_date, "dS mmmm, yyyy")}</td>
                                             <td>
                                                 <ButtonToolbar>
-                                                    <button className="btn btn-primary" style={{ marginLeft: "30px" }} onClick={() => this.setState({
+                                                    <button className="btn btn-info" style={{ marginLeft: "30px" }} onClick={() => this.setState({
                                                         editModalShow: true,
                                                         sid: service.service_id,
                                                         sname: service.service_name,
@@ -114,7 +123,18 @@ componentDidUpdate(){
                                             </td>
                                             <td>
                                                 <ButtonToolbar>
-                                                    <button className="btn btn-primary" style={{ marginLeft: "30px" }} onClick={e => { localStorage.setItem("service_name", service.service_name) }}><Link to='/individualsubservice' style={{ color: "white" }}>View</Link></button>
+                                                    <button className="btn btn-info" style={{ marginLeft: "30px",paddingLeft:20,paddingRight:20 }} onClick={e => { localStorage.setItem("service_name", service.service_name) }}><Link to='/individualsubservice' style={{ color: "white" }}>View</Link></button>
+                                                    <ToastContainer
+                                                    position="top-center"
+                                                    autoClose={5000}
+                                                    hideProgressBar={false}
+                                                    newestOnTop={false}
+                                                    closeOnClick
+                                                    rtl={false}
+                                                    pauseOnFocusLoss
+                                                    draggable
+                                                    pauseOnHover
+                                                    />
                                                 </ButtonToolbar>
                                             </td>
                                             <td>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import dateFormat from 'dateformat';
+import { ToastContainer, toast } from 'react-toastify';
 
 class SubserviceComponent extends Component {
     constructor(props) {
@@ -45,6 +46,15 @@ componentDidUpdate(){
                         response: result,
                         subservices: subservices.filter(subservice => subservice.subservice_id !== subserviceId)
                     });
+                    toast.success('Deleted Successfully ', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        });
                 },
                 (error) => {
                     this.setState({ error });
@@ -88,7 +98,17 @@ componentDidUpdate(){
                                             <td>
                                                
                                                 <button style={{ marginLeft: "10px" }} className="btn btn-danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteSubService(subservice.subservice_id) }}>Delete </button>
-
+                                                <ToastContainer
+                                                    position="top-center"
+                                                    autoClose={5000}
+                                                    hideProgressBar={false}
+                                                    newestOnTop={false}
+                                                    closeOnClick
+                                                    rtl={false}
+                                                    pauseOnFocusLoss
+                                                    draggable
+                                                    pauseOnHover
+                                                    />
                                             </td>
                                         </tr>
                                 )

@@ -10,6 +10,9 @@ import SignIN from "./Views/signin";
 import SignUp from "./Views/SignUp";
 import Provider from "./Views/Provider"
 import Individualsubservice from "./Views/Individualservice"
+import ForgetPassword from "./Views/Forgetpassword"
+import ResetPassword from "./Views/ResetPassword"
+
 
 function App() {
  
@@ -21,6 +24,10 @@ function App() {
           <Switch>
             <Route path="/Signin" exact component={SignIN} />
             <Route path="/Signup" exact component={SignUp} />
+            <Route path="/ForgetPassword" exact component={ForgetPassword} />
+            <Route path="/ResetPassword" exact component={ResetPassword} />
+
+
             <Route path="/" exact component={Service} />
             <Route path="/subservice" component={Subservice} />
             <Route path="/provider" component={Provider} />

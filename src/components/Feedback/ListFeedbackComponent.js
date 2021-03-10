@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 class ListFeedbackComponent extends Component {
     constructor(props) {
@@ -11,6 +12,10 @@ class ListFeedbackComponent extends Component {
     }
 
     componentDidMount() {
+       this.refreshlist();
+    }
+
+    refreshlist(){
         const apiUrl = 'http://localhost:4000/api/AdminViewFeedback';
         fetch(apiUrl)
             .then(response => response.json())
@@ -22,6 +27,9 @@ class ListFeedbackComponent extends Component {
             fetch(apiUrl)
             .then(response => response.json())
             .then(count => this.setState({ count: count.count }));
+    }
+    componentDidUpdate(){
+        this.refreshlist();
     }
 
     deleteFeedback(feedbackId) {
@@ -43,10 +51,20 @@ class ListFeedbackComponent extends Component {
             .then(res => res.json())
             .then(
                 (result) => {
+                    toast.success('Deleted Successfully ', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        });
                     this.setState({
                         response: result,
                         feedbacks: feedbacks.filter(feedback => feedback.feeddback_id !== feedbackId)
-                    });
+                    })
+                   
                 },
                 (error) => {
                     this.setState({ error });
@@ -85,6 +103,17 @@ class ListFeedbackComponent extends Component {
                                             <td>{feedback.review}</td>
                                             <td>
                                                 <button className="btn btn-danger" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) this.deleteFeedback(feedback.feedback_id) }}>Delete</button>
+                                                <ToastContainer
+                                                position="top-center"
+                                                autoClose={5000}
+                                                hideProgressBar={false}
+                                                newestOnTop={false}
+                                                closeOnClick
+                                                rtl={false}
+                                                pauseOnFocusLoss
+                                                draggable
+                                                pauseOnHover
+                                                />
                                             </td>
                                         </tr>
                                 )

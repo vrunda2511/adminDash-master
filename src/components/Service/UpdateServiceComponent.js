@@ -1,34 +1,50 @@
 import React, { Component } from "react"
 import { Modal, Button, Row, Col, Form, FormGroup, FormLabel } from "react-bootstrap"
+import { ToastContainer, toast } from 'react-toastify';
 
 export class UpdateServiceComponent extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
+  constructor(props) {
+    super(props)
+    this.state={
+      file:""
+    }
+    this.handleSubmit=this.handleSubmit.bind(this);
+  }
+  
+  onfileupload=(e)=>{
+    this.state.file=e.target.files[0];
+    console.log(this.state.file)
+  
+  }
   handleSubmit(event) {
     event.preventDefault();
     const id = event.target.serviceid.value;
-    fetch('http://localhost:4000/api/UpdateService/' + id, {
-      method: 'PUT',
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      },
 
-      body: JSON.stringify({
+      var formdata = new FormData();
+      formdata.append("service_name", event.target.servicename.value);
+      formdata.append("profilepicture",this.state.file);
 
-        service_name: event.target.servicename.value,
-        service_image: event.target.serviceimg.value
-      })
+      var requestOptions = {
+        method: 'PUT',
+        body: formdata,
+        redirect: 'follow'
+      };
 
-    })
-      .then(res => res.json())
-      .then((res) => {
-        alert(res.msg)
-      },
-        (error) => {
-          alert('Failed')
-        }
-      )
+      fetch("http://localhost:4000/api/UpdateService/"+id, requestOptions)
+        .then(response => response.text())
+        .then(result =>{
+          toast.success(event.target.servicename.value+' Updated Successfully ', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+            console.log(result)
+        })
+        .catch(error => console.log('error', error));
 
   }
   render() {
@@ -71,17 +87,28 @@ export class UpdateServiceComponent extends Component {
                   </FormGroup>
                   <FormGroup controlId="ServiceImage">
                     <FormLabel>Service Image</FormLabel>
-                    <Form.Control
-                      type="text"
-                      placeholder="Service Image"
-                      name="serviceimg"
-                      defaultValue={this.props.simage}
+                    <input
+               
+                      type="file"
+                      onChange={this.onfileupload}
+                     
                     />
                   </FormGroup>
                   <Form.Group>
                     <Button variant="primary" type="submit" >
                       Update Service
                     </Button>
+                    <ToastContainer
+                  position="top-center"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  />
                   </Form.Group>
                 </Form>
               </Col>
